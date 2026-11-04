@@ -17,13 +17,13 @@ jobs:
       - name: Generate project
         run: cd NotchBuddy && xcodegen
 
-      - name: Build Release (unsigned)
+      - name: Build Debug (unsigned, no PHONE_LINK/CloudKit)
         run: |
           cd NotchBuddy
           xcodebuild \
             -project NotchBuddy.xcodeproj \
             -scheme NotchBuddy \
-            -configuration Release \
+            -configuration Debug \
             -derivedDataPath build \
             build \
             CODE_SIGNING_ALLOWED=NO \
@@ -31,7 +31,7 @@ jobs:
 
       - name: Ad-hoc sign and zip the app
         run: |
-          cd NotchBuddy/build/Build/Products/Release
+          cd NotchBuddy/build/Build/Products/Debug
           codesign --force --deep --sign - \
             --entitlements "$GITHUB_WORKSPACE/NotchBuddy/Resources/Coucou.entitlements" \
             Coucou.app
